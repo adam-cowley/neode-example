@@ -1,0 +1,29 @@
+{
+  "name": "neode-example",
+  "version": "1.0.0",
+  "description": "An example project using Neode",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adam-cowley/neode-example.git"
+  },
+  "keywords": [
+    "neode",
+    "neo4j",
+    "graph",
+    "cypher",
+    "ogm"
+  ],
+  "author": "Adam Cowley <adam@wecommit.co>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adam-cowley/neode-example/issues"
+  },
+  "homepage": "https://github.com/adam-cowley/neode-example#readme",
+  "dependencies": {
+    "neode": "git+https://github.com/adam-cowley/neode.git"
+  }
+}
