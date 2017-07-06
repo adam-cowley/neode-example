@@ -1,11 +1,10 @@
-// const neode = require("neode")
-const neode = require("../neode/build")
+const neode = require("neode")
     .fromEnv()
     .with({
         Movie: require("./models/Movie"),
         Person: require("./models/Person"),
         Actor: require("./models/Actor"),
-        Director: require("./models/Director"),
+        Director: require("./models/Director")
     });
 
 neode.model("Movie").mergeOn({
@@ -22,7 +21,11 @@ neode.model("Movie").mergeOn({
         actor.mergeOn({name: "Scarlett Alice Johnson"}),
         actor.mergeOn({name: "Adam Deacon"})
     ])
-    .then(([noel, scarlett, adam]) => {
+    .then(res => {
+        const noel = res[0];
+        const scarlett = res[1];
+        const adam = res[2];
+
         return Promise.all([
             noel.relateTo(adulthood, "acts_in", {name: "Sam"}),
             scarlett.relateTo(adulthood, "acts_in", {name: "Lexi"}),
@@ -30,13 +33,29 @@ neode.model("Movie").mergeOn({
         ])
     })
     .then(() => {
-        return adulthood
+        return adulthood;
     });
 })
 .then(adulthood => {
-    console.log('Created ', adulthood)
+    return neode.merge("Director", {
+        name: "Noel Clarke",
+        directed: [
+            adulthood
+        ]
+    })
+    .then(() => {
+        return adulthood;
+    });
+})
+.then(adulthood => {
+    console.log('Created ', adulthood.id(), adulthood.properties());
 })
 .catch(e => {
-    console.log("Error :(", e);
-});
+    console.log("Error :(", e, e.details);
+})
+.then(() => {
+    neode.close();
 
+    console.log('Shutdown');
+});
+/**/

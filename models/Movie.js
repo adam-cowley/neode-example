@@ -1,4 +1,6 @@
 module.exports = {
+    labels: ["Movie"],
+
     "studio": "string",
     "releaseDate": "string",
     "imdbId": "string",
@@ -25,7 +27,10 @@ module.exports = {
     "genre": "string",
     "tagline": "string",
     "lastModified": "string",
-    "id": "string",
+    "id": {
+        type: "string",
+        primary: true
+    },
     "homepage": {
         type: "string",
         uri: {

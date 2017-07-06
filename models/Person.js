@@ -11,15 +11,5 @@ module.exports = {
         uri: {
             scheme: ["http", "https"]
         }
-    },
-
-    acts_in: {
-        type: "relationship",
-        target: "Movie",
-        relationship: "ACTS_IN",
-        direction: "out",
-        properties: {
-            name: "string"
-        }
     }
 };

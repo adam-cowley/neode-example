@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/adam-cowley/neode-example#readme",
   "dependencies": {
-    "neode": "git+https://github.com/adam-cowley/neode.git"
+    "express": "^4.15.3",
+    "neode": "^0.1.2"
   }
 }
