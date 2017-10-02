@@ -25,6 +25,8 @@
   "homepage": "https://github.com/adam-cowley/neode-example#readme",
   "dependencies": {
     "express": "^4.15.3",
-    "neode": "^0.1.2"
+    "express-session": "^1.15.6",
+    "jade": "^1.11.0",
+    "neode": "^0.1.8"
   }
 }
