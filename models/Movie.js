@@ -36,5 +36,13 @@ module.exports = {
         uri: {
             scheme: ['http', 'https']
         }
+    },
+
+    "director": {
+        type: "relationship",
+        relationship: "DIRECTED",
+        direction: "in",
+        target: "Director",
+        eager: true
     }
 };

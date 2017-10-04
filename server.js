@@ -1,38 +1,61 @@
 /**
- * A basic example using Express to create a simple movie recommendation engine
+ * A basic example using Express to create a simple movie recommendation engine.
  */
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-const neode = require('neode')
-            .fromEnv()
-            .withDirectory(path.join(__dirname, 'models'));
 
+/**
+ * Load Neode with the variables stored in `.env` and tell neode to
+ * look for models in the ./models directory.
+ */
+const neode = require('neode')
+    .fromEnv()
+    .withDirectory(path.join(__dirname, 'models'));
+
+/**
+ * Create a new Express instance
+ */
 const app = express();
 
-app.set('views', path.join(__dirname, '/views'));
+/**
+ * Tell express to use jade as the view engine and to look for views
+ * inside the ./views folder
+ */
 app.set('view engine', 'jade');
+app.set('views', path.join(__dirname, '/views'));
+
+/**
+ * SCRF for AJAX requests used in /recommend/:genre
+ */
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
 
 /**
  * Set up a simple Session
  */
 app.use(session({
-    genid: function(req) {
-        return require('uuid').v4()
+    genid: function() {
+        return require('uuid').v4();
     },
     secret: 'neoderocks'
 }));
-app.use(express.static('public'));
-
-
 
 /**
- * Helper function to get a movie to recommend
- * by the name of the Genre
+ * Serve anything inside the ./public folder as a static resource
+ */
+app.use(express.static('public'));
+
+/**
+ * Helper function to get a random movie to rate based on the name of
+ * the genre
  *
  * @param  {String} genre   Name of the genre to find a movie from
  * @param  {Array}  rated   ID's of already recommended movies
- * @return {Object}         Returns an object with `genre` and `rated` Node instances
+ * @return {Promise}        Resolves to an object with `genre` and `rated` Node instances
  */
 function getNextMovie(genre, rated) {
     let params = {
@@ -88,7 +111,7 @@ app.get('/recommend/:genre', (req, res) => {
             });
         })
         .catch(e => {
-            res.status(500).send(e.getMessage())
+            res.status(500).send(e.getMessage());
         });
 });
 
@@ -154,6 +177,7 @@ app.get('/recommend/:genre/results', (req, res) => {
             const movie = neode.hydrateFirst(results, 'recommendation');
 
             res.render('recommendation', {
+                title: "We recommend " + movie.get("title"),
                 genre,
                 movie
             });
@@ -164,9 +188,14 @@ app.get('/recommend/:genre/results', (req, res) => {
 });
 
 /**
- * Listen on port 3000
+ * For examples of how to use Neode to quickly generate a REST API,
+ * checkout the route examples in ./routes.api.js
+ */
+app.use(require('./routes/api')(neode));
+
+/**
+ * Listen for requests on port 3000
  */
 app.listen(3000, function () {
-    console.log('app listening on http://localhost:3000');
+    console.log('app listening on http://localhost:3000'); // eslint-disable-line no-console
 });
-

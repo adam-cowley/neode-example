@@ -21,52 +21,52 @@ neode.model("Movie").mergeOn({
     description: "Not Straight Outta Compton, but straight out of jail and back on the mean streets of London.",
     tagline: "Are you dizzy blud?"
 })
-.then(adulthood => {
-    // Get the 'Actor' definition
-    const actor = neode.model("Actor");
+    .then(adulthood => {
+        // Get the 'Actor' definition
+        const actor = neode.model("Actor");
 
-    // Create some 'Actor' nodes
-    return Promise.all([
-        actor.mergeOn({name: "Noel Clarke"}),
-        actor.mergeOn({name: "Scarlett Alice Johnson"}),
-        actor.mergeOn({name: "Adam Deacon"})
-    ])
-    .then(([noel, scarlett, adam]) => {
-        // Relate the actors to the movie
+        // Create some 'Actor' nodes
         return Promise.all([
-            noel.relateTo(adulthood, "acts_in", {name: "Sam"}),
-            scarlett.relateTo(adulthood, "acts_in", {name: "Lexi"}),
-            adam.relateTo(adulthood, "acts_in", {name: "Jay"}),
+            actor.mergeOn({name: "Noel Clarke"}),
+            actor.mergeOn({name: "Scarlett Alice Johnson"}),
+            actor.mergeOn({name: "Adam Deacon"})
         ])
+            .then(([noel, scarlett, adam]) => {
+                // Relate the actors to the movie
+                return Promise.all([
+                    noel.relateTo(adulthood, "acts_in", {name: "Sam"}),
+                    scarlett.relateTo(adulthood, "acts_in", {name: "Lexi"}),
+                    adam.relateTo(adulthood, "acts_in", {name: "Jay"}),
+                ]);
+            })
+            .then(() => {
+                return adulthood;
+            });
+    })
+    .then(adulthood => {
+        // Merge a 'Director' node based on the name
+        return neode.merge("Director", {
+            name: "Noel Clarke",
+            // Neode will create relationships when either a Node instance,
+            // ID property or Object containing match parameters is passed
+            directed: [
+                adulthood
+            ]
+        })
+            .then(() => {
+                return adulthood;
+            });
+    })
+    .then(adulthood => {
+        // Output some results
+        console.log('Created #', adulthood.id(), adulthood.properties()); // eslint-disable-line no-console
+    })
+    .catch(e => {
+        console.log("Error :(", e, e.details); // eslint-disable-line no-console
     })
     .then(() => {
-        return adulthood;
-    });
-})
-.then(adulthood => {
-    // Merge a 'Director' node based on the name
-    return neode.merge("Director", {
-        name: "Noel Clarke",
-        // Neode will create relationships when either a Node instance,
-        // ID property or Object containing match parameters is passed
-        directed: [
-            adulthood
-        ]
-    })
-    .then(() => {
-        return adulthood;
-    });
-})
-.then(adulthood => {
-    // Output some results
-    console.log('Created '#, adulthood.id(), adulthood.properties());
-})
-.catch(e => {
-    console.log("Error :(", e, e.details);
-})
-.then(() => {
-    // Close all connections to the graph
-    neode.close();
+        // Close all connections to the graph
+        neode.close();
 
-    console.log('Shutdown');
-});
+        console.log('Shutdown'); // eslint-disable-line no-console
+    });
