@@ -41,6 +41,8 @@ app.use(session({
     genid: function() {
         return require('uuid').v4();
     },
+    resave: false,
+    saveUninitialized: true,
     secret: 'neoderocks'
 }));
 
@@ -87,7 +89,7 @@ function getNextMovie(genre, rated) {
 app.get('/', (req, res) => {
     neode.all('Genre')
         .then(genres => {
-            res.render('index', {genres});
+            res.render('index', {title: 'Home', genres});
         });
 });
 

@@ -37,6 +37,17 @@ module.exports = {
             scheme: ['http', 'https']
         }
     },
+    "poster": {
+        type: "string",
+        uri: {
+            scheme: ['http', 'https']
+        }
+    },
+    plot: "string",
+    released: "string",
+    imdbRating: "float",
+    year: "integer",
+
 
     "director": {
         type: "relationship",

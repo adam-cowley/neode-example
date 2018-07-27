@@ -4,6 +4,7 @@
   "description": "An example project using Neode",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,7 +28,7 @@
     "express": "^4.15.3",
     "express-session": "^1.15.6",
     "jade": "^1.11.0",
-    "neode": "^0.1.9"
+    "neode": "^0.2.3"
   },
   "devDependencies": {
     "eslint": "^4.8.0"
